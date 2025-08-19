@@ -2,6 +2,7 @@ fastapi
 streamlit
 tensorflow
 azure-cosmos
+azure-identity
 azure-storage-blob
 python-dotenv
 uvicorn
