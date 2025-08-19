@@ -1,0 +1,12 @@
+fastapi
+streamlit
+tensorflow
+azure-cosmos
+azure-storage-blob
+python-dotenv
+uvicorn
+black
+ruff
+mypy
+pytest
+pre-commit

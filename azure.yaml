@@ -1,0 +1,15 @@
+name: cricket-tracker
+metadata:
+  template: azure-aca.bicep
+services:
+  api:
+    project: ./api
+    language: python
+    host: containerapp
+  ui:
+    project: ./ui
+    language: python
+    host: containerapp
+infra:
+  provider: bicep
+  path: ./infra/azure-aca.bicep
