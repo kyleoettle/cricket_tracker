@@ -1,3 +1,6 @@
+---
+MVP Status: All core screens implemented and interactive (Player/Coach workload, cycle tracking, dashboards, model retraining, entry management).
+
 1. Login & Role-based Home
 
 Login: Auth0 integration (email/password or federated login).
