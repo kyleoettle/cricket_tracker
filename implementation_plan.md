@@ -30,11 +30,11 @@ This plan breaks down the build into small, trackable steps. Use the color-coded
 
 ## 3. API (FastAPI)
 
-⬜ 3.1 Scaffold `src/api` folder and FastAPI app (`main.py`)  
-⬜ 3.2 Add JWT Auth0 middleware and RBAC decorators  
-⬜ 3.3 Create Pydantic models for all entities  
-⬜ 3.4 Implement Cosmos DB client and dependency injection  
-⬜ 3.5 Add routes for sessions, cycle logs, metrics, model registry  
+🟨 3.1 Scaffold `src/api` folder and FastAPI app (`main.py`)  
+🟨 3.2 Add JWT Auth0 middleware and RBAC decorators  
+🟨 3.3 Create Pydantic models for all entities  
+🟨 3.4 Implement Cosmos DB client and dependency injection  
+🟨 3.5 Add routes for sessions, cycle logs, metrics, model registry  
 ⬜ 3.6 Add endpoints for model inference and retraining  
 ⬜ 3.7 Write unit tests for API endpoints  
 
@@ -66,14 +66,13 @@ This plan breaks down the build into small, trackable steps. Use the color-coded
 - Export Data: Allow coaches/admins to export player/team workload and cycle data to CSV/Excel.
 - Notifications: Display alerts (e.g., "Player X is in high-risk zone this week") to coaches and players.
 - Settings: Manage roles, teams, competitions, and other admin features.
-- Manual Entry: Admin/coach can capture player workload details for any player.
 - Enhanced Calendar: Improve menstrual cycle calendar with more detailed phase/risk overlays and export option.
 - Advanced Filters: Add more filters to dashboards (date range, risk status, etc.).
 - AI Insights Expansion: Show more detailed AI recommendations and risk explanations.
 - Auth0 Integration: Implement login and role-based access control.
 
 ## 6. Data Model & Cosmos DB
-
+> Note: Use `src/services/cosmos_example.py` as a reference for building out the CosmosClient and integrating with Azure Cosmos DB. This example covers authentication, container access, CRUD, and queries.
 ⬜ 6.1 Define containers: players, teams, sessions, cycleLogs, metrics, injuries, modelRegistry  
 ⬜ 6.2 Implement partition keys and indexing  
 ⬜ 6.3 Add data validation and privacy logic  

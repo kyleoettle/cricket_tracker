@@ -14,7 +14,8 @@
             ],
             "jinja": true,
             "env": {
-                "PYTHONPATH": "${workspaceFolder}"
+                "PYTHONPATH": "./src"
+                //"PYTHONPATH": "${workspaceFolder}"
             },
             "console": "integratedTerminal"
         }
