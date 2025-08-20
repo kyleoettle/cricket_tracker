@@ -8,6 +8,8 @@ python-dotenv
 uvicorn
 black
 ruff
+types-requests
+pandas-stubs
 mypy
 pytest
 pre-commit

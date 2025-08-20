@@ -53,7 +53,8 @@ This plan breaks down the build into small, trackable steps. Use the color-coded
 ## 5. UI (Streamlit)
 
 🟩 5.1 Scaffold `src/ui` folder and `dashboard.py`  
-🟩 5.3 Build player workload input form  
+� 5.9 Integrate Streamlit UI with FastAPI endpoints (in-memory demo)  
+�🟩 5.3 Build player workload input form  
 🟩 5.4 Build menstrual cycle tracking form  
 🟩 5.5 Create player dashboard (charts, metrics, AI insights)  
 🟩 5.6 Build coach dashboard (team table, filters, risk badges)  
