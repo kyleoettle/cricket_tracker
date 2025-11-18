@@ -9,7 +9,9 @@ uvicorn
 black
 ruff
 types-requests
+pandas
 pandas-stubs
 mypy
 pytest
 pre-commit
+authlib

@@ -81,10 +81,32 @@ module cosmosDbAccount 'br/public:avm/res/document-db/database-account:0.8.1' = 
         name: databaseName
         containers: [
           {
-            name: containerName
-            paths: [
-              '/category'
-            ]
+            name: 'players'
+            paths: ['/team_id']
+          }
+          {
+            name: 'sessions'
+            paths: ['/player_id']
+          }
+          {
+            name: 'cycleLogs'
+            paths: ['/player_id']
+          }
+          {
+            name: 'metrics'
+            paths: ['/player_id']
+          }
+          {
+            name: 'injuries'
+            paths: ['/player_id']
+          }
+          {
+            name: 'modelRegistry'
+            paths: ['/model_id']
+          }
+          {
+            name: 'teams'
+            paths: ['/team_id']
           }
         ]
       }

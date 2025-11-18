@@ -4,7 +4,7 @@ from datetime import date
 
 
 class Player(BaseModel):
-    id: str
+    id: Optional[str] = None
     name: str
     role: str
     team_id: Optional[str]
@@ -12,7 +12,7 @@ class Player(BaseModel):
 
 
 class Session(BaseModel):
-    id: str
+    id: Optional[str] = None
     player_id: str
     date: date
     session_type: str
@@ -25,7 +25,7 @@ class Session(BaseModel):
 
 
 class CycleLog(BaseModel):
-    id: str
+    id: Optional[str] = None
     player_id: str
     period_start: date
     symptoms: List[str]
@@ -37,13 +37,13 @@ class CycleLog(BaseModel):
 
 
 class Team(BaseModel):
-    id: str
+    id: Optional[str] = None
     name: str
     player_ids: List[str]
 
 
 class Metric(BaseModel):
-    id: str
+    id: Optional[str] = None
     player_id: str
     week: date
     acute: int
@@ -52,7 +52,7 @@ class Metric(BaseModel):
 
 
 class Injury(BaseModel):
-    id: str
+    id: Optional[str] = None
     player_id: str
     date: date
     type: str
@@ -61,7 +61,7 @@ class Injury(BaseModel):
 
 
 class ModelRegistry(BaseModel):
-    id: str
+    id: Optional[str] = None
     model_name: str
     version: str
     trained_at: date

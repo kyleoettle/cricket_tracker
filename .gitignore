@@ -212,3 +212,4 @@ __marimo__/
 
 # dotenv files
 .env
+src/ui/.streamlit/secrets.toml

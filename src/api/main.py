@@ -10,10 +10,14 @@ from src.models.models import (
     Injury,
     ModelRegistry,
 )
+
 from uuid import uuid4
 from datetime import datetime
+from src.services.cosmos import get_db
+
 
 app = FastAPI()
+db = get_db()
 
 # --- In-memory mock data for sessions ---
 
@@ -27,173 +31,202 @@ injuries: list[Injury] = []
 modelregistries: list[ModelRegistry] = []
 
 
-# --- Session Endpoints ---
+# --- Session Endpoints (Cosmos DB) ---
 @app.get("/sessions", response_model=list[Session])
 def list_sessions():
-    return sessions
+    query = "SELECT * FROM c"
+    items = db.query_items("sessions", query)
+    return items
 
 
 @app.post("/sessions", response_model=Session)
 def create_session(session: Session):
-    # Convert date string to date object if needed
     if isinstance(session.date, str):
         session.date = datetime.strptime(session.date, "%Y-%m-%d").date()
     session.id = str(uuid4())
-    sessions.append(session)
+    item = session.model_dump()
+    db.upsert_item("sessions", item)
     return session
 
 
 @app.get("/sessions/{session_id}", response_model=Session)
 def get_session(session_id: str):
-    for s in sessions:
-        if s.id == session_id:
-            return s
+    # Partition key is player_id
+    query = "SELECT * FROM c WHERE c.id = @id"
+    params = [{"name": "@id", "value": session_id}]
+    items = db.query_items("sessions", query, params)
+    if items:
+        return items[0]
     raise HTTPException(status_code=404, detail="Session not found")
 
 
-# --- Player Endpoints ---
+# --- Player Endpoints (Cosmos DB) ---
 @app.get("/players", response_model=list[Player])
 def list_players():
-    return players
+    query = "SELECT * FROM c"
+    items = db.query_items("players", query)
+    return items
 
 
 @app.post("/players", response_model=Player)
 def create_player(player: Player):
     player.id = str(uuid4())
-    players.append(player)
+    item = player.dict()
+    db.upsert_item("players", item)
     return player
 
 
 @app.get("/players/{player_id}", response_model=Player)
 def get_player(player_id: str):
-    for p in players:
-        if p.id == player_id:
-            return p
+    query = "SELECT * FROM c WHERE c.id = @id"
+    params = [{"name": "@id", "value": player_id}]
+    items = db.query_items("players", query, params)
+    if items:
+        return items[0]
     raise HTTPException(status_code=404, detail="Player not found")
 
 
-# --- CycleLog Endpoints ---
+# --- CycleLog Endpoints (Cosmos DB) ---
 @app.get("/cyclelogs", response_model=list[CycleLog])
 def list_cyclelogs():
-    return cyclelogs
+    query = "SELECT * FROM c"
+    items = db.query_items("cycleLogs", query)
+    return items
 
 
 @app.post("/cyclelogs", response_model=CycleLog)
 def create_cyclelog(cyclelog: CycleLog):
-    # Convert period_start string to date object if needed
     if isinstance(cyclelog.period_start, str):
         cyclelog.period_start = datetime.strptime(
             cyclelog.period_start, "%Y-%m-%d"
         ).date()
     cyclelog.id = str(uuid4())
-    cyclelogs.append(cyclelog)
+    item = cyclelog.model_dump()
+    db.upsert_item("cycleLogs", item)
     return cyclelog
 
 
 @app.get("/cyclelogs/{cyclelog_id}", response_model=CycleLog)
 def get_cyclelog(cyclelog_id: str):
-    for c in cyclelogs:
-        if c.id == cyclelog_id:
-            return c
+    query = "SELECT * FROM c WHERE c.id = @id"
+    params = [{"name": "@id", "value": cyclelog_id}]
+    items = db.query_items("cycleLogs", query, params)
+    if items:
+        return items[0]
     raise HTTPException(status_code=404, detail="CycleLog not found")
 
 
-# --- Team Endpoints ---
+# --- Team Endpoints (Cosmos DB) ---
 @app.get("/teams", response_model=list[Team])
 def list_teams():
-    return teams
+    query = "SELECT * FROM c"
+    items = db.query_items("teams", query)
+    return items
 
 
 @app.post("/teams", response_model=Team)
 def create_team(team: Team):
     team.id = str(uuid4())
-    teams.append(team)
+    item = team.dict()
+    db.upsert_item("teams", item)
     return team
 
 
 @app.get("/teams/{team_id}", response_model=Team)
 def get_team(team_id: str):
-    for t in teams:
-        if t.id == team_id:
-            return t
+    query = "SELECT * FROM c WHERE c.id = @id"
+    params = [{"name": "@id", "value": team_id}]
+    items = db.query_items("teams", query, params)
+    if items:
+        return items[0]
     raise HTTPException(status_code=404, detail="Team not found")
 
 
-# --- Metric Endpoints ---
+# --- Metric Endpoints (Cosmos DB) ---
 @app.get("/metrics", response_model=list[Metric])
 def list_metrics():
-    return metrics
+    query = "SELECT * FROM c"
+    items = db.query_items("metrics", query)
+    return items
 
 
 @app.post("/metrics", response_model=Metric)
 def create_metric(metric: Metric):
-    # Convert week string to date object if needed
     if isinstance(metric.week, str):
         metric.week = datetime.strptime(metric.week, "%Y-%m-%d").date()
     metric.id = str(uuid4())
-    metrics.append(metric)
+    item = metric.dict()
+    db.upsert_item("metrics", item)
     return metric
 
 
 @app.get("/metrics/{metric_id}", response_model=Metric)
 def get_metric(metric_id: str):
-    for m in metrics:
-        if m.id == metric_id:
-            return m
+    query = "SELECT * FROM c WHERE c.id = @id"
+    params = [{"name": "@id", "value": metric_id}]
+    items = db.query_items("metrics", query, params)
+    if items:
+        return items[0]
     raise HTTPException(status_code=404, detail="Metric not found")
 
 
-# --- Injury Endpoints ---
+# --- Injury Endpoints (Cosmos DB) ---
 @app.get("/injuries", response_model=list[Injury])
 def list_injuries():
-    return injuries
+    query = "SELECT * FROM c"
+    items = db.query_items("injuries", query)
+    return items
 
 
 @app.post("/injuries", response_model=Injury)
 def create_injury(injury: Injury):
-    # Convert date string to date object if needed
     if isinstance(injury.date, str):
         injury.date = datetime.strptime(injury.date, "%Y-%m-%d").date()
     injury.id = str(uuid4())
-    injuries.append(injury)
+    item = injury.dict()
+    db.upsert_item("injuries", item)
     return injury
 
 
 @app.get("/injuries/{injury_id}", response_model=Injury)
 def get_injury(injury_id: str):
-    for i in injuries:
-        if i.id == injury_id:
-            return i
+    query = "SELECT * FROM c WHERE c.id = @id"
+    params = [{"name": "@id", "value": injury_id}]
+    items = db.query_items("injuries", query, params)
+    if items:
+        return items[0]
     raise HTTPException(status_code=404, detail="Injury not found")
 
 
-# --- ModelRegistry Endpoints ---
+# --- ModelRegistry Endpoints (Cosmos DB) ---
 @app.get("/modelregistries", response_model=list[ModelRegistry])
 def list_modelregistries():
-    return modelregistries
+    query = "SELECT * FROM c"
+    items = db.query_items("modelRegistry", query)
+    return items
 
 
 @app.post("/modelregistries", response_model=ModelRegistry)
 def create_modelregistry(modelregistry: ModelRegistry):
-    # Convert trained_at string to date object if needed
     if isinstance(modelregistry.trained_at, str):
         modelregistry.trained_at = datetime.strptime(
             modelregistry.trained_at, "%Y-%m-%d"
         ).date()
     modelregistry.id = str(uuid4())
-    modelregistries.append(modelregistry)
+    item = modelregistry.dict()
+    db.upsert_item("modelRegistry", item)
     return modelregistry
 
 
 @app.get("/modelregistries/{modelregistry_id}", response_model=ModelRegistry)
 def get_modelregistry(modelregistry_id: str):
-    for mr in modelregistries:
-        if mr.id == modelregistry_id:
-            return mr
+    query = "SELECT * FROM c WHERE c.id = @id"
+    params = [{"name": "@id", "value": modelregistry_id}]
+    items = db.query_items("modelRegistry", query, params)
+    if items:
+        return items[0]
     raise HTTPException(status_code=404, detail="ModelRegistry not found")
 
-
-app = FastAPI()
 
 # CORS setup (for local dev)
 app.add_middleware(

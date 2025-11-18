@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "Debug FastAPI (Uvicorn)",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
             "args": [
@@ -16,6 +16,24 @@
             "env": {
                 "PYTHONPATH": "./src"
                 //"PYTHONPATH": "${workspaceFolder}"
+            },
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Debug Streamlit (UI)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "streamlit",
+            "args": [
+                "run",
+                "src/ui/dashboard.py",
+                "--server.port",
+                "8501",
+                "--server.headless",
+                "true"
+            ],
+            "env": {
+                "PYTHONPATH": "./src"
             },
             "console": "integratedTerminal"
         }
